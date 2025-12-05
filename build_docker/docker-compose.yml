@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   stash-jellyfin-proxy:
-    image: stash-jellyfin-proxy:latest
+    image: ghcr.io/feldorn/stash-jellyfin-proxy:latest
     container_name: stash-jellyfin-proxy
     restart: unless-stopped
     
@@ -20,7 +20,7 @@ services:
       
       # Optional: Override settings from config file via environment
       # These override values in /config/stash_jellyfin_proxy.conf
-      # - STASH_URL=http://stash:9999
+      # - STASH_URL=https://stash:9999
       # - STASH_API_KEY=your_api_key
       # - SJS_USER=admin
       # - SJS_PASSWORD=your_password
@@ -34,7 +34,7 @@ services:
       # - STASH_VERIFY_TLS=false
     
     # If Stash is also in Docker on the same network, use its container name
-    # Example: STASH_URL=http://stash:9999
+    # Example: STASH_URL=https://stash:9999
     # networks:
     #   - stash_network
     
