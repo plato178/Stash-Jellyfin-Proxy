@@ -5974,6 +5974,7 @@ routes = [
     Route("/Users/{user_id}/Views", endpoint_user_views),
     Route("/UserViews", endpoint_user_views),  # Alternative path used by some clients
     Route("/Users/{user_id}/Items/Latest", endpoint_latest_items),
+    Route("/Items/Latest", endpoint_latest_items),  # Alternative path
     Route("/Users/{user_id}/Items/Resume", endpoint_user_items_resume),
     Route("/Users/{user_id}/GroupingOptions", endpoint_grouping_options),
     Route("/UserViews/GroupingOptions", endpoint_grouping_options),  # Alternative path
