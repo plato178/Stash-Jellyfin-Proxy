@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-Stash-Jellyfin Proxy v5.01
-Enables Infuse and other Jellyfin clients to connect to Stash by emulating the Jellyfin API.
+Stash-Jellyfin Proxy v5.10
+Enables Infuse and other Jellyfin clients to connect to Stash by emulating the Jellyfin API 10.11.6.
 
 # =============================================================================
 # TODO / KNOWN ISSUES
@@ -110,6 +110,8 @@ SERVER_ID = ""  # Required - must be set in config file
 # Pagination settings
 DEFAULT_PAGE_SIZE = 50
 MAX_PAGE_SIZE = 200
+
+IMAGE_CACHE_MAX_SIZE = 100
 
 # Feature toggles
 ENABLE_FILTERS = True
@@ -2849,6 +2851,8 @@ def format_jellyfin_item(scene: Dict[str, Any], parent_id: str = "root-scenes") 
         "ImageTags": {"Primary": "img"},  # Triggers image requests
         "BackdropImageTags": [],
         "RunTimeTicks": int(duration * 10000000) if duration else 0,
+        "OfficialRating": None,  # No standardized rating system in Stash
+        "CommunityRating": scene.get("rating"),  # User rating (100-based scale)
         "UserData": {
             "PlaybackPositionTicks": 0,
             "PlayCount": 0,
@@ -2976,9 +2980,11 @@ async def endpoint_system_info(request):
     logger.debug("Providing System Info")
     return JSONResponse({
         "ServerName": SERVER_NAME,
-        "Version": "10.8.13",
+        "Version": "10.11.6",
         "Id": SERVER_ID,
         "OperatingSystem": "Linux",
+        "ProductName": "Jellyfin Server",
+        "StartupWizardCompleted": True,
         "SupportsLibraryMonitor": False,
         "WebSocketPortNumber": PROXY_PORT,
         "CompletedInstallations": [{"Guid": SERVER_ID, "Name": SERVER_NAME}],
@@ -2991,10 +2997,11 @@ async def endpoint_public_info(request):
     return JSONResponse({
         "LocalAddress": f"http://{PROXY_BIND}:{PROXY_PORT}",
         "ServerName": SERVER_NAME,
-        "Version": "10.8.13",
+        "Version": "10.11.6",
         "Id": SERVER_ID,
         "ProductName": "Jellyfin Server",
-        "OperatingSystem": "Linux"
+        "OperatingSystem": "Linux",
+        "StartupWizardCompleted": True
     })
 
 async def endpoint_authenticate_by_name(request):
@@ -5694,8 +5701,14 @@ async def endpoint_ping(request):
     return Response(content="Stash-Jellyfin Proxy", media_type="text/plain")
 
 async def endpoint_sessions_capabilities(request):
-    """Return session capabilities - stub for client compatibility."""
-    return JSONResponse({})
+    """Return session capabilities - enhanced for 10.11 compatibility."""
+    return JSONResponse({
+        "PlayableMediaTypes": ["Video"],
+        "SupportedCommands": [],
+        "SupportsMediaControl": False,
+        "SupportsSync": False,
+        "SupportsPersistentIdentifier": False
+    })
 
 async def endpoint_items_counts(request):
     """Return item counts by type."""
