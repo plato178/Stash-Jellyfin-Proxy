@@ -5993,6 +5993,7 @@ routes = [
     Route("/Items", endpoint_items),
     Route("/Items/Counts", endpoint_items_counts),
     Route("/Items/{item_id}/PlaybackInfo", endpoint_playback_info, methods=["GET", "POST"]),
+    Route("/Items/{item_id}", endpoint_item_details),  # Alternative path (must be after specific /Items/* routes)
     Route("/Items/{item_id}/Similar", endpoint_similar),
     Route("/Items/{item_id}/Intros", endpoint_intros),
     Route("/Items/{item_id}/SpecialFeatures", endpoint_special_features),
