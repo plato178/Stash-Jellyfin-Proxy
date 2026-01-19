@@ -5976,6 +5976,7 @@ routes = [
     Route("/Users/{user_id}/Items/Latest", endpoint_latest_items),
     Route("/Items/Latest", endpoint_latest_items),  # Alternative path
     Route("/Users/{user_id}/Items/Resume", endpoint_user_items_resume),
+    Route("/UserItems/Resume", endpoint_user_items_resume),  # Alternative path
     Route("/Users/{user_id}/GroupingOptions", endpoint_grouping_options),
     Route("/UserViews/GroupingOptions", endpoint_grouping_options),  # Alternative path
     Route("/Users/{user_id}/FavoriteItems", endpoint_user_favorites),
